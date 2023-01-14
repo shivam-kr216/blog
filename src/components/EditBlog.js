@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
-import Buttons from './Buttons';
-import TextFields from './TextFields';
-import { addBlog } from '../action/blog';
-import { v4 as uuid } from 'uuid';
-import { connect } from 'react-redux';
 import withRouter from '../higher order components/withRouter';
+import { updateBlog } from '../action/blog';
+import { connect } from 'react-redux';
+import TextFields from './TextFields';
+import Buttons from './Buttons';
 
-class AddBlog extends Component {
-    
+class EditBlog extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             title: '',
             description: '',
             review: '',
             errorMessage: ''
         };
         this.handleChange = this.handleChange.bind(this);
-        this.addClick = this.addClick.bind(this);
+        this.updateClick = this.updateClick.bind(this);
         this.cancelClick = this.cancelClick.bind(this);
+    }
+
+    componentDidMount() {
+        const { params, posts } = this.props;
+        const filteredPost = posts.find(post => post.id === params.id);
+        const {title, description, review}=filteredPost;
+        this.setState({
+            title, description, review
+        });
     }
 
     handleChange(e) {
@@ -27,8 +36,9 @@ class AddBlog extends Component {
         });
     }
 
-    async addClick() {
-        const {title, description, review} = this.state;
+    async updateClick() {
+        const { title, description, review } = this.state;
+        const { id } = this.props.params;
         if(title===''){
             this.setState({
                 errorMessage: 'Title is missing. Please enter title'
@@ -42,13 +52,8 @@ class AddBlog extends Component {
             })
             return;
         }
-        await this.props.dispatch(addBlog({title, description, review, id: uuid()}));
-        this.setState({
-            title: '',
-            description: '',
-            review: '',
-            errorMessage: ''
-        });
+        await this.props.dispatch(updateBlog({ id, title, description, review }));
+        this.props.navigate('/');
     }
 
     cancelClick() {
@@ -68,9 +73,9 @@ class AddBlog extends Component {
                     review={review}
                     onchange={this.handleChange}
                 />
-                <Buttons 
-                    handleClick1={this.addClick} 
-                    text1="Add"
+                <Buttons
+                    handleClick1={this.updateClick}
+                    text1="Update"
                     handleClick2={this.cancelClick}
                     text2="Cancel"
                 />
@@ -79,4 +84,11 @@ class AddBlog extends Component {
     }
 }
 
-export default withRouter(connect(null, null)(AddBlog));
+function mapStateToProps(state) {
+    return {
+        posts: state.blogReducer.posts
+
+    }
+}
+
+export default withRouter(connect(mapStateToProps, null)(EditBlog));

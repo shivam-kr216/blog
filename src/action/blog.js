@@ -15,3 +15,12 @@ export function deleteBlog(id) {
         });
     }
 }
+
+export function updateBlog(blogPost) {
+    return dispatch => {
+        dispatch({
+            type: "UPDATE_POST",
+            payload: blogPost
+        });
+    }
+}

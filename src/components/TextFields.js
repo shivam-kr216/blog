@@ -1,6 +1,7 @@
+import React from 'react';
 import Row from './Row';
 
-function TextFields() {
+function TextFields({ title, description, review, onchange }) {
     return (
         <>
             <Row>
@@ -8,7 +9,14 @@ function TextFields() {
                     <label htmlFor="title">Title</label>
                 </div>
                 <div className="col-75">
-                    <input type="text" id="title" name="title" placeholder="Title" required={true} />
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="Title"
+                        value={title}
+                        onChange={onchange}
+                    />
                 </div>
             </Row>
             <Row>
@@ -17,7 +25,8 @@ function TextFields() {
                 </div>
                 <div className="col-75">
                     <textarea id="description" name="description" placeholder="Description.."
-                        style={{ height: "180px" }} required={true}></textarea>
+                        style={{ height: "180px" }} value={description} onChange={onchange}>
+                    </textarea>
                 </div>
             </Row>
             <Row>
@@ -26,7 +35,8 @@ function TextFields() {
                 </div>
                 <div className="col-75">
                     <textarea id="review" name="review" placeholder="Review.."
-                        style={{ height: "180px" }}></textarea>
+                        style={{ height: "180px" }} value={review} onChange={onchange}>
+                    </textarea>
                 </div>
             </Row>
         </>

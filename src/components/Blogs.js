@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addBlog, deleteBlog } from '../action/blog';
+import { deleteBlog } from '../action/blog';
 import { connect } from 'react-redux';
 import Table from './Table';
 import RowData from './RowData';
@@ -8,16 +8,7 @@ class Blogs extends Component {
 
     constructor(props) {
         super(props);
-        this.onUpdateClick = this.onUpdateClick.bind(this);
         this.onDeleteClick = this.onDeleteClick.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.dispatch(addBlog);
-    }
-
-    onUpdateClick() {
-
     }
 
     onDeleteClick(id) {
@@ -26,12 +17,11 @@ class Blogs extends Component {
 
     render() {
         const { posts } = this.props;
-        const renderPost = posts?.map((post, idx) => {
+        const renderPost = posts?.map((post) => {
             return (
                 <RowData
                     key={post.id}
                     post={post}
-                    onUpdateClick={this.onUpdateClick}
                     onDeleteClick = {() => this.onDeleteClick(post.id)}
                 />
             )

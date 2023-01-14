@@ -4,6 +4,7 @@ import store from './store';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import AddBlog from './components/AddBlog';
+import EditBlog from './components/EditBlog';
 import './App.css';
 
 function App() {
@@ -13,8 +14,9 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path='/' element={<Blog />} />
-            <Route path='/add' element={<AddBlog />} />
+            <Route exact path='/' element={<Blog />} />
+            <Route exact path='/add' element={<AddBlog />} />
+            <Route exact path='/edit/:id' element={<EditBlog />} />
           </Routes>
         </div>
       </BrowserRouter>

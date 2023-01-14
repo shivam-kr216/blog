@@ -1,16 +1,9 @@
 const initialState = {
-    posts: [
-        // {
-        //     id: 1,
-        //     title: 'Dummy',
-        //     description: 'Have a nice day!',
-        //     review: 'Excellent word!'
-        // }
-    ],
-    post: {}
+    posts: []
 };
 
 function blogReducer(state = initialState, action) {
+
     switch (action.type) {
         case "ADD_POST": return {
             ...state,
@@ -22,6 +15,12 @@ function blogReducer(state = initialState, action) {
                 return post.id !== action.payload
             })
         };
+        case "UPDATE_POST": return {
+            ...state,
+            posts: state.posts.map(post => {
+                return post.id === action.payload.id ? action.payload : post
+            })
+        }
         default: return state;
     }
 }
